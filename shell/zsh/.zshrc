@@ -51,3 +51,11 @@ export HERD_PHP_82_INI_SCAN_DIR="/Users/rafix/Library/Application Support/Herd/c
 
 # Herd injected PHP 8.5 configuration.
 export HERD_PHP_85_INI_SCAN_DIR="/Users/rafix/Library/Application Support/Herd/config/php/85/"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/rafix/.lmstudio/bin"
+# End of LM Studio CLI section
+
+
+# Added by Antigravity
+export PATH="/Users/rafix/.antigravity/antigravity/bin:$PATH"
