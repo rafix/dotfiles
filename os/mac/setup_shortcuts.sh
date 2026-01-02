@@ -9,6 +9,17 @@ echo "🔧 Setting up app shortcuts using Karabiner Elements..."
 
 DOTFILES_DIR="$HOME/.dotfiles"
 SCRIPT_DIR="$DOTFILES_DIR/os/mac"
+KARABINER_ASSETS="$HOME/.config/karabiner/assets/complex_modifications"
+
+# Copy Karabiner config to assets folder
+if [ -f "$SCRIPT_DIR/karabiner_app_shortcuts.json" ]; then
+    mkdir -p "$KARABINER_ASSETS"
+    cp "$SCRIPT_DIR/karabiner_app_shortcuts.json" "$KARABINER_ASSETS/"
+    echo "✅ Copied Karabiner config to $KARABINER_ASSETS/"
+    echo "   Open Karabiner-Elements → Complex Modifications → Add predefined rule to enable"
+else
+    echo "⚠️  Karabiner config not found at $SCRIPT_DIR/karabiner_app_shortcuts.json"
+fi
 
 # Function to create macOS keyboard shortcuts
 create_macos_shortcut() {
