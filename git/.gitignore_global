@@ -1,0 +1,21 @@
+# OS generated
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+
+# IDE/Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Environment
+.env.local
+.envrc
+
+# Claude Code
+.claude/
