@@ -53,28 +53,26 @@ elif [ -f "/usr/local/share/zimfw/zimfw.zsh" ]; then
   ZIMFW_LOADER="/usr/local/share/zimfw/zimfw.zsh"
 fi
 
+# Define zimfw function wrapper
 if [ -n "$ZIMFW_LOADER" ]; then
-  print -P "%F{cyan}Sourcing zimfw from:%f $ZIMFW_LOADER"
-  source "$ZIMFW_LOADER"
+  print -P "%F{cyan}Using zimfw from:%f $ZIMFW_LOADER"
+  zimfw() { zsh "$ZIMFW_LOADER" "$@" }
+elif [ -f "$ZIM_HOME/zimfw.zsh" ]; then
+  print -P "%F{cyan}Using zimfw from:%f $ZIM_HOME/zimfw.zsh"
+  zimfw() { zsh "$ZIM_HOME/zimfw.zsh" "$@" }
+elif command -v zimfw >/dev/null 2>&1; then
+  print -P "%F{cyan}Using zimfw from PATH%f"
 else
-  if command -v zimfw >/dev/null 2>&1; then
-    : # zimfw function/command available by other means
+  print -P "%F{yellow}zimfw not found. Downloading to ZIM_HOME...%f"
+  if command -v curl >/dev/null 2>&1; then
+    curl -fsSL https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh -o "$ZIM_HOME/zimfw.zsh"
+  elif command -v wget >/dev/null 2>&1; then
+    wget -qO "$ZIM_HOME/zimfw.zsh" https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
   else
-    print -P "%F{yellow}zimfw not found via Homebrew. Attempting network install into current session...%f"
-    # Fallback to online installer for the session only
-    if command -v curl >/dev/null 2>&1; then
-      source /dev/stdin <<'EOF'
-      $(curl -fsSL https://raw.githubusercontent.com/zimfw/install/master/install.zsh)
-EOF
-    elif command -v wget >/dev/null 2>&1; then
-      source /dev/stdin <<'EOF'
-      $(wget -qO- https://raw.githubusercontent.com/zimfw/install/master/install.zsh)
-EOF
-    else
-      print -P "%F{red}Neither Homebrew zimfw nor curl/wget available. Cannot proceed with zimfw.%f"
-      exit 1
-    fi
+    print -P "%F{red}Neither curl nor wget available. Cannot download zimfw.%f"
+    exit 1
   fi
+  zimfw() { zsh "$ZIM_HOME/zimfw.zsh" "$@" }
 fi
 
 # Ensure .zimrc exists
