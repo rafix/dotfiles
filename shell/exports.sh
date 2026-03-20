@@ -50,8 +50,18 @@ path=(
 export path
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Lazy-load nvm — defers the expensive sourcing until first use
+nvm() {
+  unset -f nvm node npm npx yarn pnpm
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+  nvm "$@"
+}
+node() { nvm; node "$@"; }
+npm()  { nvm; npm "$@"; }
+npx()  { nvm; npx "$@"; }
+yarn() { nvm; yarn "$@"; }
+pnpm() { nvm; pnpm "$@"; }
 
 # export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 export PATH="$(brew --prefix)/opt/python@3.11/libexec/bin:$PATH"
