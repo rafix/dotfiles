@@ -1,0 +1,34 @@
+{
+  "title": "Hyper Key - Navigation (H/J/K/L → Arrow Keys)",
+  "rules": [
+    {
+      "description": "Hyper + H/J/K/L → Arrow Keys",
+      "manipulators": [
+        {
+          "type": "basic",
+          "conditions": [{ "name": "hyper_key", "type": "variable_if", "value": 1 }],
+          "from": { "key_code": "h" },
+          "to": [{ "key_code": "left_arrow" }]
+        },
+        {
+          "type": "basic",
+          "conditions": [{ "name": "hyper_key", "type": "variable_if", "value": 1 }],
+          "from": { "key_code": "j" },
+          "to": [{ "key_code": "down_arrow" }]
+        },
+        {
+          "type": "basic",
+          "conditions": [{ "name": "hyper_key", "type": "variable_if", "value": 1 }],
+          "from": { "key_code": "k" },
+          "to": [{ "key_code": "up_arrow" }]
+        },
+        {
+          "type": "basic",
+          "conditions": [{ "name": "hyper_key", "type": "variable_if", "value": 1 }],
+          "from": { "key_code": "l" },
+          "to": [{ "key_code": "right_arrow" }]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "title": "Hyper Key - App Shortcuts (Hyper + Number/Letter)",
+  "rules": [
+    {
+      "description": "Hyper + App Shortcuts",
+      "manipulators": [
+        {
+          "type": "basic",
+          "conditions": [{ "name": "hyper_key", "type": "variable_if", "value": 1 }],
+          "from": { "key_code": "1" },
+          "to": [{ "shell_command": "open -a 'Ghostty'" }]
+        },
+        {
+          "type": "basic",
+          "conditions": [{ "name": "hyper_key", "type": "variable_if", "value": 1 }],
+          "from": { "key_code": "2" },
+          "to": [{ "shell_command": "open -a 'Cursor'" }]
+        },
+        {
+          "type": "basic",
+          "conditions": [{ "name": "hyper_key", "type": "variable_if", "value": 1 }],
+          "from": { "key_code": "3" },
+          "to": [{ "shell_command": "open -a 'Safari'" }]
+        },
+        {
+          "type": "basic",
+          "conditions": [{ "name": "hyper_key", "type": "variable_if", "value": 1 }],
+          "from": { "key_code": "4" },
+          "to": [{ "shell_command": "open -a 'IntelliJ IDEA'" }]
+        },
+        {
+          "type": "basic",
+          "conditions": [{ "name": "hyper_key", "type": "variable_if", "value": 1 }],
+          "from": { "key_code": "5" },
+          "to": [{ "shell_command": "open -a 'Adobe Lightroom Classic'" }]
+        },
+        {
+          "type": "basic",
+          "conditions": [{ "name": "hyper_key", "type": "variable_if", "value": 1 }],
+          "from": { "key_code": "f" },
+          "to": [{ "shell_command": "open -a 'Finder'" }]
+        },
+        {
+          "type": "basic",
+          "conditions": [{ "name": "hyper_key", "type": "variable_if", "value": 1 }],
+          "from": { "key_code": "p" },
+          "to": [{ "shell_command": "open -a 'Adobe Photoshop 2024'" }]
+        }
+      ]
+    }
+  ]
+}

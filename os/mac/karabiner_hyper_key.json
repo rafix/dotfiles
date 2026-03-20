@@ -1,0 +1,34 @@
+{
+  "title": "Hyper Key - Caps Lock → Hyper (⌘⌥⌃⇧) / Escape when tapped",
+  "rules": [
+    {
+      "description": "Caps Lock → Hyper Key (⌘⌥⌃⇧) when held, Escape when tapped",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "caps_lock",
+            "modifiers": { "optional": ["any"] }
+          },
+          "to": [
+            {
+              "set_variable": {
+                "name": "hyper_key",
+                "value": 1
+              }
+            }
+          ],
+          "to_after_key_up": [
+            {
+              "set_variable": {
+                "name": "hyper_key",
+                "value": 0
+              }
+            }
+          ],
+          "to_if_alone": [{ "key_code": "escape" }]
+        }
+      ]
+    }
+  ]
+}
