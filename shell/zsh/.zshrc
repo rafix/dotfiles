@@ -60,6 +60,7 @@ export PATH="$PATH:/Users/rafix/.lmstudio/bin"
 # Added by Antigravity
 export PATH="/Users/rafix/.antigravity/antigravity/bin:$PATH"
 export PATH="/opt/homebrew/sbin:$PATH"
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
 # bun completions
 [ -s "/Users/rafix/.bun/_bun" ] && source "/Users/rafix/.bun/_bun"
