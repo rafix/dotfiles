@@ -1,6 +1,8 @@
 # Starship prompt configuration
 # Docs: https://starship.rs/config/
 
+command_timeout = 1000
+
 format = """
 $directory\
 $git_branch\
@@ -68,6 +70,8 @@ disabled = true
 format = "[$symbol($version )]($style)"
 symbol = "⬡ "
 style = "green bold"
+detect_files = ["package.json", ".nvmrc", ".node-version"]
+detect_folders = ["node_modules"]
 
 [python]
 format = "[$symbol($version )]($style)"
