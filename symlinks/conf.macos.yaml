@@ -12,6 +12,7 @@
     ~/.dotly: os/mac/.dotly
     ~/.tmux.conf: shell/tmux/tmux.conf
     ~/.config/ghostty/config: shell/ghostty/config
+    ~/.config/opencode/opencode.json: editors/opencode/opencode.json
     ~/bin/bash: /opt/homebrew/bin/bash
     ~/bin/date: /opt/homebrew/bin/gdate
     ~/bin/find: /opt/homebrew/bin/gfind
