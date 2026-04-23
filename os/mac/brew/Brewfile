@@ -60,7 +60,6 @@ cask "wezterm"
 mas "1Password for Safari", id: 1569813296
 mas "AdBlock Pro", id: 1018301773
 mas "AusweisApp", id: 948660805
-mas "DaVinci Resolve", id: 571213070
 mas "HP Easy Scan", id: 967004861
 mas "HP Smart", id: 1474276998
 mas "Infuse", id: 1136220934
