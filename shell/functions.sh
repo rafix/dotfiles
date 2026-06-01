@@ -18,7 +18,7 @@ function recent_dirs() {
 	cd "$(echo "$selected" | sed "s/\~/$escaped_home/")" || echo "Invalid directory"
 }
 
-# Tmux functions for better Warp integration
+# Tmux functions for better Ghostty integration
 function tmux_new_session() {
 	local session_name="${1:-$(basename $PWD)}"
 	tmux new-session -d -s "$session_name" -c "$PWD"

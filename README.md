@@ -52,7 +52,7 @@ git submodule update --init --recursive modules/dotly
 - **Enhanced Navigation**: Directory jumping, recent paths, fuzzy finding
 
 ### 🖥️ **Terminal & Multiplexing**
-- **tmux**: Optimized for Warp terminal with intuitive key bindings
+- **tmux**: Optimized for Ghostty terminal with intuitive key bindings
 - **Session Management**: Auto-attach, named sessions, easy navigation
 - **Clipboard Integration**: Seamless macOS copy/paste support
 
