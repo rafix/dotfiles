@@ -58,7 +58,10 @@ This dotfiles repository provides a complete development environment setup for m
 ├── os/mac/
 │   ├── brew/
 │   │   └── Brewfile        # Homebrew packages
-│   ├── app_shortcuts.sh   # App launching shortcuts
+│   ├── app_shortcuts.sh   # Manual app launcher (shell)
+│   ├── setup_shortcuts.sh # Installs Karabiner shortcuts into live config (idempotent)
+│   ├── karabiner_app_shortcuts.json     # Canonical app-shortcut ruleset (browser excluded)
+│   ├── karabiner.local.sh.example       # Per-machine browser override template
 │   ├── (removed)           # Status bar removed for simplicity
 │   └── .dotly              # Dotly macOS settings
 ├── symlinks/
@@ -261,7 +264,28 @@ Optimized for **Warp terminal** integration:
 
 ### App Shortcuts
 
-**App Shortcuts** provide quick keyboard-based application launching using Karabiner Elements. Configuration in `os/mac/app_shortcuts.sh`.
+**App Shortcuts** provide quick keyboard-based application launching using Karabiner Elements.
+
+- **Canonical ruleset:** `os/mac/karabiner_app_shortcuts.json` (all bindings except the browser).
+- **Installer:** `os/mac/setup_shortcuts.sh` patches the live `~/.config/karabiner/karabiner.json` directly (via `jq`, with a `.bak` backup) — no manual Karabiner GUI import. It is **idempotent**, so re-running on any machine converges to the same result.
+- **Manual launcher:** `os/mac/app_shortcuts.sh <app>` for launching apps from the shell/aliases.
+
+##### Machine-specific browser
+
+The browser binding differs per machine, so it lives in an **untracked** `os/mac/karabiner.local.sh` (gitignored) rather than the shared ruleset:
+
+```sh
+# os/mac/karabiner.local.sh   (copy from karabiner.local.sh.example)
+BROWSER_APP='Google Chrome'              # work machine
+BROWSER_KEY='b'
+BROWSER_MODS='left_command,left_option'  # cmd+opt+b
+
+# personal machine would instead use:
+# BROWSER_APP='Brave Browser'
+# BROWSER_MODS='left_command,left_shift,left_option'  # shift+cmd+opt+b
+```
+
+`setup_shortcuts.sh` sources this file and injects the browser shortcut at apply time. If the file is absent it falls back to the default (Brave on `shift+cmd+opt+b`). To onboard a new machine: `cp os/mac/karabiner.local.sh.example os/mac/karabiner.local.sh`, edit the browser values, then run `bash os/mac/setup_shortcuts.sh`.
 
 #### Workspace Organization
 
@@ -269,9 +293,9 @@ Optimized for **Warp terminal** integration:
 
 | Workspace | Purpose | Auto-assigned Apps |
 |-----------|---------|-------------------|
-| **T** | Terminal | Warp |
-| **B** | Browser | Brave, Safari, Chrome, Firefox |
-| **C** | Code | VS Code |
+| **T** | Terminal | Ghostty |
+| **B** | Browser | Chrome (work) / Brave (personal), Safari, Firefox |
+| **C** | Code | Cursor |
 | **I** | IntelliJ | IntelliJ IDEA |
 | **A** | AI Tools | Claude, Perplexity (app) |
 | **M** | Messaging | WhatsApp, Messages, Discord, Telegram |
@@ -287,9 +311,9 @@ Optimized for **Warp terminal** integration:
 
 **🚀 Application Shortcuts** (Quick Launch)
 ```
-Cmd+Alt+T    → Open Warp (Terminal)
-Cmd+Alt+B    → Open Brave Browser
-Cmd+Alt+C    → Open Visual Studio Code
+Cmd+Alt+T    → Open Ghostty (Terminal)
+Cmd+Alt+B    → Open Browser  (work: Chrome; personal default: Shift+Cmd+Alt+B → Brave)
+Cmd+Alt+C    → Open Cursor
 Cmd+Alt+F    → Open Finder
 Cmd+Alt+I    → Open IntelliJ IDEA
 Cmd+Alt+A    → Open Claude (AI Assistant)
@@ -298,6 +322,7 @@ Cmd+Alt+W    → Open WhatsApp
 Cmd+Alt+M    → Open Messages
 Cmd+Alt+D    → Open Discord
 Cmd+Alt+G    → Open ChatGPT (web)
+Cmd+Alt+S    → Open Slack
 Cmd+Shift+Alt+T → Open Telegram
 Cmd+Shift+Alt+L → Open Adobe Lightroom Classic
 Cmd+Shift+Alt+S → Open Adobe Photoshop
