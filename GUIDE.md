@@ -21,7 +21,7 @@ This dotfiles repository provides a complete development environment setup for m
 
 - **Shell Environment**: Zsh with Zimfw framework
 - **Package Management**: Homebrew with automated installation
-- **Terminal Multiplexer**: tmux with Warp integration
+- **Terminal Multiplexer**: tmux with Ghostty integration
 - **App Management**: Keyboard shortcuts for quick app launching
 - **Terminal Focus**: Streamlined development environment
 - **Development Tools**: Complete VS Code setup, Git configuration, and CLI tools
@@ -246,7 +246,7 @@ up      # update all packages
 
 ### tmux Configuration
 
-Optimized for **Warp terminal** integration:
+Optimized for **Ghostty terminal** integration:
 
 #### Key Bindings
 - **Prefix**: `Ctrl-a` (easier than `Ctrl-b`)
@@ -256,7 +256,7 @@ Optimized for **Warp terminal** integration:
 - **Reload Config**: `Ctrl-a + r`
 
 #### Features
-- ✅ True color support for Warp
+- ✅ True color support for Ghostty
 - ✅ Mouse support enabled
 - ✅ macOS clipboard integration
 - ✅ Custom status bar
