@@ -10,16 +10,82 @@ echo "🔧 Setting up app shortcuts using Karabiner Elements..."
 DOTFILES_DIR="$HOME/.dotfiles"
 SCRIPT_DIR="$DOTFILES_DIR/os/mac"
 KARABINER_ASSETS="$HOME/.config/karabiner/assets/complex_modifications"
+KARABINER_CONFIG="$HOME/.config/karabiner/karabiner.json"
+ASSET_SRC="$SCRIPT_DIR/karabiner_app_shortcuts.json"
+RULE_DESC="App Shortcuts - Launch Applications with Cmd+Alt combinations"
 
-# Copy Karabiner config to assets folder
-if [ -f "$SCRIPT_DIR/karabiner_app_shortcuts.json" ]; then
-    mkdir -p "$KARABINER_ASSETS"
-    cp "$SCRIPT_DIR/karabiner_app_shortcuts.json" "$KARABINER_ASSETS/"
-    echo "✅ Copied Karabiner config to $KARABINER_ASSETS/"
-    echo "   Open Karabiner-Elements → Complex Modifications → Add predefined rule to enable"
+# --- Machine-specific browser binding -------------------------------------
+# Defaults match the personal machine; override per-machine in karabiner.local.sh
+BROWSER_APP='Brave Browser'
+BROWSER_KEY='b'
+BROWSER_MODS='left_command,left_shift,left_option'
+if [ -f "$SCRIPT_DIR/karabiner.local.sh" ]; then
+    # shellcheck source=/dev/null
+    source "$SCRIPT_DIR/karabiner.local.sh"
+    echo "✅ Loaded machine config: $BROWSER_KEY ($BROWSER_MODS) → $BROWSER_APP"
 else
-    echo "⚠️  Karabiner config not found at $SCRIPT_DIR/karabiner_app_shortcuts.json"
+    echo "ℹ️  No karabiner.local.sh found — using defaults ($BROWSER_APP)."
+    echo "   Copy karabiner.local.sh.example → karabiner.local.sh to customize."
 fi
+
+apply_karabiner_shortcuts() {
+    if ! command -v jq >/dev/null 2>&1; then
+        echo "⚠️  jq is required to patch the live Karabiner config (brew install jq)."
+        return 1
+    fi
+    if [ ! -f "$ASSET_SRC" ]; then
+        echo "⚠️  Canonical ruleset not found at $ASSET_SRC"
+        return 1
+    fi
+    if [ ! -f "$KARABINER_CONFIG" ]; then
+        echo "⚠️  $KARABINER_CONFIG not found."
+        echo "   Launch Karabiner-Elements once (it generates the default config), then re-run."
+        return 1
+    fi
+
+    # Build the browser manipulator from the machine config.
+    local mods_json
+    mods_json=$(printf '%s' "$BROWSER_MODS" | jq -R 'split(",")')
+    local browser_manip
+    browser_manip=$(jq -n \
+        --arg key "$BROWSER_KEY" \
+        --argjson mods "$mods_json" \
+        --arg cmd "open -a '$BROWSER_APP'" \
+        '{type:"basic", from:{key_code:$key, modifiers:{mandatory:$mods}}, to:[{shell_command:$cmd}]}')
+
+    # Assemble the full rule: canonical manipulators (browser-free) + browser manipulator.
+    local rule_json
+    rule_json=$(jq \
+        --arg desc "$RULE_DESC" \
+        --argjson browser "$browser_manip" \
+        '{description:$desc, manipulators:(.rules[0].manipulators + [$browser])}' \
+        "$ASSET_SRC")
+
+    # Back up, then patch every profile: replace the matching rule, else append it.
+    cp "$KARABINER_CONFIG" "$KARABINER_CONFIG.bak"
+    local tmp
+    tmp=$(mktemp)
+    jq \
+        --arg desc "$RULE_DESC" \
+        --argjson rule "$rule_json" \
+        '.profiles |= map(
+            .complex_modifications.rules =
+                ((.complex_modifications.rules // [] | map(select(.description != $desc))) + [$rule])
+         )' \
+        "$KARABINER_CONFIG" > "$tmp" && mv "$tmp" "$KARABINER_CONFIG"
+
+    echo "✅ Patched live config: $KARABINER_CONFIG (backup at $KARABINER_CONFIG.bak)"
+    echo "   Karabiner-Elements auto-reloads on file change."
+
+    # Also refresh the importable asset (machine-specific) for transparency.
+    mkdir -p "$KARABINER_ASSETS"
+    jq --argjson rule "$rule_json" \
+        '{title:"App Shortcuts - Quick App Launching", rules:[$rule]}' \
+        "$ASSET_SRC" > "$KARABINER_ASSETS/karabiner_app_shortcuts.json"
+    echo "✅ Refreshed importable asset in $KARABINER_ASSETS/"
+}
+
+apply_karabiner_shortcuts || echo "⚠️  Skipped live Karabiner patch (see message above)."
 
 # Function to create macOS keyboard shortcuts
 create_macos_shortcut() {

@@ -4,19 +4,24 @@
 # Quick app launching functionality using keyboard shortcuts
 # This script provides functions to launch applications
 
+# Machine-specific browser (overridable via karabiner.local.sh, default Brave)
+BROWSER_APP='Brave Browser'
+_local_cfg="$(dirname "${BASH_SOURCE[0]}")/karabiner.local.sh"
+[ -f "$_local_cfg" ] && source "$_local_cfg"
+
 launch_app() {
     local app_name="$1"
     echo "Launching $app_name..."
-    
+
     case "$app_name" in
-        "terminal"|"warp")
-            open -a "Warp"
+        "terminal"|"ghostty")
+            open -a "Ghostty"
             ;;
-        "browser"|"brave")
-            open -a "Brave Browser"
+        "browser"|"brave"|"chrome")
+            open -a "$BROWSER_APP"
             ;;
-        "code"|"vscode")
-            open -a "Visual Studio Code"
+        "code"|"cursor")
+            open -a "Cursor"
             ;;
         "finder")
             open -a "Finder"

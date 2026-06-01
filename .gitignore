@@ -17,6 +17,7 @@ shell/zsh/.zcompdump*
 # Host-specific artifacts
 shell/zsh/.zshenv-e
 shell/bash/.bashrc-e
+os/mac/karabiner.local.sh
 
 # OS generated files
 .DS_Store

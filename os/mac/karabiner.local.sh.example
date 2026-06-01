@@ -1,0 +1,23 @@
+#!/bin/bash
+# Machine-specific Karabiner overrides.
+#
+# Copy this file to `karabiner.local.sh` (gitignored) on each machine and set
+# the browser binding for that machine. `setup_shortcuts.sh` sources it and
+# injects the browser shortcut into the live Karabiner config.
+#
+# If `karabiner.local.sh` is absent, setup falls back to the defaults below
+# (Brave on shift+cmd+opt+b).
+#
+# BROWSER_MODS is a comma-separated list of Karabiner modifier key_codes, e.g.
+#   left_command,left_option              -> cmd+opt
+#   left_command,left_shift,left_option   -> shift+cmd+opt
+
+# --- Work machine (Rafaels-MacBook-Pro-2): cmd+opt+b -> Chrome ---
+BROWSER_APP='Google Chrome'
+BROWSER_KEY='b'
+BROWSER_MODS='left_command,left_option'
+
+# --- Personal machine: shift+cmd+opt+b -> Brave ---
+# BROWSER_APP='Brave Browser'
+# BROWSER_KEY='b'
+# BROWSER_MODS='left_command,left_shift,left_option'
